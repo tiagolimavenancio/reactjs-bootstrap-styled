@@ -1,25 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import { ThemeProvider } from 'styled-components';
+
+import Navigation from "./components/Navigation";
+import Page from "./components/Page";
+
+import { KitGlobal } from "./kit";
+import themes from "./theme";
 import './App.css';
 
-function App() {
+function App(props) {
+  const [destinationIndex, setDestinationIndex] = useState(0);
+  const [theme, setTheme] = useState(themes.luna);
+  const destination = props.destinations[destinationIndex];
+
+  useEffect(() => {
+    setTheme(themes[destination.theme]);
+  }, [destination])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <>
+        <KitGlobal />
+        <Navigation 
+          {...props}
+          destinationIndex={destinationIndex}
+          setDestinationIndex={setDestinationIndex}
+        />
+        <Page 
+          {...props}
+          destinationIndex={destinationIndex}
+          setDestinationIndex={setDestinationIndex}
+        />
+      </>
+    </ThemeProvider>
   );
 }
 

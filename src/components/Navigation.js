@@ -1,0 +1,42 @@
+import React, { Component } from 'react';
+import {
+  KitNavbar,
+  KitNavbarBrand,
+  KitLogo,
+  KitDropdown,
+  KitDropdownItem
+} from "../kit";
+
+export default function Navigation(props) {
+
+  const renderItem = (destination, index) => {
+    return (
+      <KitDropdownItem key={index} onSelect={() => props.setDestinationIndex(index)}>
+        {destination.title}
+      </KitDropdownItem>
+    )
+  }
+
+  const renderDestinationMenu = () => {
+    const { destinations, destinationIndex: current } = props;
+    return (
+      <KitDropdown
+        alignRight
+        label={destinations[current].title}
+        items={props.destinations.map((destination, index) =>
+          renderItem(destination, index)
+        )}
+      />
+    )
+  }
+  
+  return (
+    <KitNavbar>
+      <KitNavbarBrand>
+        <KitLogo />
+        Solar Excursions
+      </KitNavbarBrand>
+      {renderDestinationMenu()}
+    </KitNavbar>
+  )
+}
